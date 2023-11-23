@@ -1,9 +1,9 @@
-import { AppRequest } from '../models';
+import { Request } from 'express';
 
 /**
- * @param {AppRequest} request
+ * @param {Request} request
  * @returns {string}
  */
-export function getUserIdFromRequest(request: AppRequest): string {
-  return request.user && request.user.id;
+export function getUserIdFromRequest(request: Request): string {
+  return request.query.user_id as string;
 }

@@ -1,0 +1,38 @@
+service: cart-service
+frameworkVersion: '3'
+
+plugins:
+  - serverless-dotenv-plugin
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-west-1
+  stage: dev
+  vpc:
+    securityGroupIds:
+      - sg-0f8096ea2bae8fa12
+    subnetIds:
+      - subnet-0dd87db005ee2639d
+      - subnet-0e08d32ffdebd3378
+      - subnet-097c7a09b0bafcb1b
+
+  environment:
+    PG_HOST: ${env:PG_HOST}
+    PG_PORT: ${env:PG_PORT}
+    PG_DATABASE: ${env:PG_DATABASE}
+    PG_USERNAME: ${env:PG_USERNAME}
+    PG_PASSWORD: ${env:PG_PASSWORD}
+
+functions:
+  main:
+    handler: dist/main.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
